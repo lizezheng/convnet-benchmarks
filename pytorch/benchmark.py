@@ -43,7 +43,7 @@ archs = {
     'mobilenet_v2': [128, 3, 224, 224],
     'shufflenet': [128, 3, 224, 224],
     'unet': [32, 3, 128, 128],
-    'unet3d': [1, 3, 32, 128, 128]
+    'unet3d': [6, 4, 64, 64, 64]
 }
 steps = 10 # nb of steps in loop to average perf
 nDryRuns = 5

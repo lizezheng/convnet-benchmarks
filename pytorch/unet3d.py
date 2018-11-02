@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class UNet3D(nn.Module):
-    def __init__(self, in_channel=3, n_classes=10):
+    def __init__(self, in_channel=4, n_classes=10):
         self.in_channel = in_channel
         self.n_classes = n_classes
         super(UNet3D, self).__init__()
