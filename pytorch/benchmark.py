@@ -66,9 +66,11 @@ else:
 
 print('Running on device: %s' % (device_name))
 
-def sync_gpu():
-    if args.cuda and args.inference:
+def _time():
+    if args.cuda:
         torch.cuda.synchronize()
+
+    return time.time()
 
 def main():
     for arch, sizes in archs.items():
@@ -117,17 +119,15 @@ def main():
         
         for i in range(steps):
             optimizer.zero_grad()   # zero the gradient buffers
-            sync_gpu()
-            t1 = time.time()
+            t1 = _time()
             output = net(data)
-            sync_gpu()
-            t2 = time.time()
+            t2 = _time()
             if not args.inference:
                 loss = output.sum() / 1e6 if 'unet' in arch else criterion(output, target)
                 loss.backward()
-                t3 = time.time()
+                t3 = _time()
                 optimizer.step()    # Does the update
-                t4 = time.time()
+                t4 = _time()
             time_fwd = time_fwd + (t2 - t1)
             if args.print_iteration_time:
                 print("%-30s %d: %10.2f ms" % ('forward iteration', i, (t2-t1)*1000))
