@@ -6,6 +6,7 @@ import torchvision.models as models
 import torch.optim as optim
 import time
 import subprocess
+from collections import OrderedDict
 
 from mobilenet import MobileNetV2
 models.__dict__['mobilenet_v2'] = MobileNetV2
@@ -33,21 +34,20 @@ parser.add_argument('--print-iteration-time', action='store_true', default=False
 args = parser.parse_args()
 args.cuda = not args.no_cuda and torch.cuda.is_available()
 
-archs = {
-    'alexnet': [128, 3, 224, 224],
-    'vgg11': [64, 3, 224, 224],
-    'inception_v3': [32, 3, 299, 299],
-    'resnet50': [128, 3, 224, 224],
-    'squeezenet1_0': [128, 3, 224, 224],
-    'densenet121': [32, 3, 224, 224],
-    'mobilenet_v2': [128, 3, 224, 224],
-    'shufflenet': [128, 3, 224, 224],
-    'unet': [32, 3, 128, 128],
-    'unet3d': [6, 4, 64, 64, 64]
-}
+archs = OrderedDict()
+archs['alexnet'] = [128, 3, 224, 224]
+archs['vgg11'] = [64, 3, 224, 224]
+archs['inception_v3'] = [32, 3, 299, 299]
+archs['resnet50'] = [128, 3, 224, 224]
+archs['squeezenet1_0'] = [128, 3, 224, 224]
+archs['densenet121'] = [32, 3, 224, 224]
+archs['mobilenet_v2'] = [128, 3, 224, 224]
+archs['shufflenet'] = [128, 3, 224, 224]
+archs['unet'] = [32, 3, 128, 128]
+archs['unet3d'] = [6, 4, 64, 64, 64]
+
 steps = 10 # nb of steps in loop to average perf
 nDryRuns = 5
-
 
 if args.cuda:
     import torch.backends.cudnn as cudnn
